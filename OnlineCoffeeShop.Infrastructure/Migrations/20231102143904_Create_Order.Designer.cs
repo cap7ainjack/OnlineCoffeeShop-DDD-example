@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineCoffeeShop.Infrastructure;
 
@@ -11,9 +12,11 @@ using OnlineCoffeeShop.Infrastructure;
 namespace OnlineCoffeeShop.Infrastructure.Migrations
 {
     [DbContext(typeof(OnlineCoffeeShopContext))]
-    partial class OnlineCoffeeShopContextModelSnapshot : ModelSnapshot
+    [Migration("20231102143904_Create_Order")]
+    partial class Create_Order
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -220,7 +223,7 @@ namespace OnlineCoffeeShop.Infrastructure.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderLines");
+                    b.ToTable("OrderLine");
                 });
 
             modelBuilder.Entity("OnlineCoffeeShop.Domain.Aggregates.Product.Product", b =>

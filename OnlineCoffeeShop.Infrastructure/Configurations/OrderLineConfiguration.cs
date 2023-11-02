@@ -9,9 +9,5 @@ internal class OrderLineConfiguration : IEntityTypeConfiguration<OrderLine>
     {
         builder
             .HasKey(c => c.Id);
-
-        builder.HasOne(z => z.Order)
-            .WithMany()
-            .OnDelete(DeleteBehavior.Cascade);
     }
 }
