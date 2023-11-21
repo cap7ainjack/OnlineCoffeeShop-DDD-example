@@ -51,7 +51,7 @@ internal class ProductRepository : Repository<Product>, IProductRepository
     {
         foreach (var item in lines)
         {
-            Product founded = await this.All().FirstOrDefaultAsync(z => z.Id == item.Id);
+            Product founded = await this.All().FirstOrDefaultAsync(z => z.Id == item.ProductId);
             if (founded != null)
             {
                 founded.DecreaseQuantity(item.Quantity);

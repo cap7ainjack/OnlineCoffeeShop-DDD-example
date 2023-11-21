@@ -5,8 +5,10 @@ using Microsoft.Extensions.DependencyInjection;
 using OnlineCoffeeShop.Application.Behaviours;
 using OnlineCoffeeShop.Application.Order.Commands.Common;
 using OnlineCoffeeShop.Application.Order.Commands.Create;
+using OnlineCoffeeShop.Application.Order.EventsHandlers;
 using OnlineCoffeeShop.Application.Product.Commands.Common;
 using OnlineCoffeeShop.Application.Product.Commands.Create;
+using OnlineCoffeeShop.Domain.Events;
 using OnlineCoffeeShop.Domain.Factories.Order;
 using OnlineCoffeeShop.Domain.Factories.Product;
 
@@ -23,5 +25,6 @@ public static class ApplicationConfiguration
          .AddTransient<IOrderFactory, OrderFactory>()
          .AddScoped<IValidator<CreateProductCommand>, ProductCommandValidator>()
          .AddScoped<IValidator<CreateOrderCommand>, OrderCommandValidator>()
-         .AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+         .AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>))
+         .AddTransient<INotificationHandler<OrderSubmittedEvent>, SetProductQuantityOnOrderComplete>();
 }

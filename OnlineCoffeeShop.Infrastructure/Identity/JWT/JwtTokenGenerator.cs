@@ -24,7 +24,7 @@ internal class JwtTokenGenerator : IJwtTokenGenerator
             {
                     new Claim(ClaimTypes.NameIdentifier, user.Id),
                     new Claim(ClaimTypes.Name, user.Email)
-                }),
+            }),
             Expires = DateTime.UtcNow.AddDays(7),
             SigningCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(key),

@@ -25,8 +25,8 @@ public static class ConfigureWebServices
         services.AddScoped<IRequestHandler<CreateProductCommand, int>, CreateProductHandler>();
         services.AddScoped<IRequestHandler<CreateOrderCommand, int>, CreateOrderHandler>();
 
-        services.AddScoped<IRequestHandler<CreateUserCommand, Result>, CreateUserCommandHandler>();
-        services.AddScoped<IRequestHandler<LoginUserCommand, Result<LoginOutputModel>>, LoginUserCommandHandler>();
+    //    services.AddScoped<IRequestHandler<CreateUserCommand, Result>, CreateUserCommandHandler>();
+     //   services.AddScoped<IRequestHandler<LoginUserCommand, Result<LoginOutputModel>>, LoginUserCommandHandler>();
 
         services.Configure<ApiBehaviorOptions>(options =>
         {

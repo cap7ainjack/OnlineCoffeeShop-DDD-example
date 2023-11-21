@@ -1,12 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using OnlineCoffeeShop.Application;
 using OnlineCoffeeShop.Application.Identity.Interfaces;
-using OnlineCoffeeShop.Application.Product;
-using OnlineCoffeeShop.Domain.Factories.Order;
-using OnlineCoffeeShop.Domain.Factories.Product;
-using OnlineCoffeeShop.Domain.Interfaces;
 using OnlineCoffeeShop.Infrastructure;
-using OnlineCoffeeShop.Infrastructure.Repositories;
+using OnlineCoffeeShop.Infrastructure.Identity;
 using OnlineCoffeeShop.WebApi.Configuration;
 using OnlineCoffeeShop.WebApi.Middleware;
 using OnlineCoffeeShop.WebApi.Services;
@@ -42,8 +38,10 @@ app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
+

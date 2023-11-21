@@ -75,7 +75,7 @@ public class Product : Entity<int>, IAggregateRoot
     }
 
 
-    private void ValidatePrice(Money price)
+    private void ValidatePrice(Money price) // TODO: move currency validation to money obj
     {
         var currency = price.Currency;
 
