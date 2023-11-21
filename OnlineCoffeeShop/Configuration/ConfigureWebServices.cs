@@ -1,8 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OnlineCoffeeShop.Application.Common.Models;
-using OnlineCoffeeShop.Application.Identity.Commands.Create;
-using OnlineCoffeeShop.Application.Identity.Commands.Login;
 using OnlineCoffeeShop.Application.Order.Commands.Create;
 using OnlineCoffeeShop.Application.Product.Commands.Create;
 using OnlineCoffeeShop.Application.Product.Queries.ById;
