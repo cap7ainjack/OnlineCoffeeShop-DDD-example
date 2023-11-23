@@ -6,9 +6,6 @@ using static OnlineCoffeeShop.Domain.Aggregates.ModelConstants.Common;
 namespace OnlineCoffeeShop.Domain.Aggregates.Product;
 public class Product : Entity<int>, IAggregateRoot
 {
-    private static readonly IEnumerable<string> AllowedCurrencies
-    = new CurrencyData().GetData().Cast<string>();
-
     public string Name { get; private set; }
     public string Description { get; private set; } = string.Empty;
     public Money Price { get; private set; }
@@ -68,25 +65,9 @@ public class Product : Entity<int>, IAggregateRoot
 
     public Product UpdatePrice(Money price)
     {
-        this.ValidatePrice(price);
         this.Price = price;
 
         return this;
-    }
-
-
-    private void ValidatePrice(Money price) // TODO: move currency validation to money obj
-    {
-        var currency = price.Currency;
-
-        if (AllowedCurrencies.Any(c => c == currency.ToUpper()))
-        {
-            return;
-        }
-
-        var allowedCurrenciyNames = string.Join(", ", AllowedCurrencies.Select(c => $"'{c}'"));
-
-        throw new InvalidProductException($"'{currency}' is not a valid currency. Allowed values are: {allowedCurrenciyNames}.");
     }
 
     private void Validate(string name)
