@@ -1,4 +1,6 @@
 ﻿
+using OnlineCoffeeShop.Domain.Aggregates.Product;
+
 namespace OnlineCoffeeShop.Domain.Factories.Product;
 public interface IProductFactory : IFactory<Aggregates.Product.Product>
 {
@@ -8,6 +10,6 @@ public interface IProductFactory : IFactory<Aggregates.Product.Product>
 
     IProductFactory WithQuantity(int quantity);
 
-    IProductFactory WithPrice(decimal price, string currency);
+    IProductFactory WithPrice(decimal price, int currency);
     IProductFactory WithImage(string imageUrl);
 }

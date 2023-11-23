@@ -32,8 +32,8 @@ public class ProductFactory : IProductFactory
         return this;
     }
 
-    public IProductFactory WithPrice(decimal price, string currency)
-        => this.WithPrice(new Money(price, currency));
+    public IProductFactory WithPrice(decimal price, int currency)
+        => this.WithPrice(new Money(price, CurrencyEnum.FromValue(currency)));
 
     public IProductFactory WithPrice(Money money)
     {

@@ -22,7 +22,6 @@ public class Product : Entity<int>, IAggregateRoot
     internal Product(string name, int quantity, string description, Money price, string imageUrl)
     {
         this.Validate(name);
-        this.ValidatePrice(price);
         this.ValidateImageUrl(imageUrl);
 
         Name = name;

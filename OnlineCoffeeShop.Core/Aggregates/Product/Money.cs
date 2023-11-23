@@ -11,9 +11,9 @@ public class Money : ValueObject
 
     public decimal Price { get; private set; }
 
-    public string Currency { get; private set; }
+    public CurrencyEnum Currency { get; private set; }
 
-    internal Money(decimal price, string currency)
+    internal Money(decimal price, CurrencyEnum currency)
     {
         this.Validate(price, currency);
 
@@ -21,30 +21,14 @@ public class Money : ValueObject
         this.Currency = currency;
     }
 
-    private void Validate(decimal price, string currency)
+    private void Validate(decimal price, CurrencyEnum currency)
     {
         this.Validate(price);
         this.Validate(currency);
-
-        if (AllowedCurrencies.Any(c => c == currency.ToUpper()))
-        {
-            return;
-        }
-
-        var allowedCurrenciyNames = string.Join(", ", AllowedCurrencies.Select(c => $"'{c}'"));
-
-        throw new InvalidProductException($"'{currency}' is not a valid currency. Allowed values are: {allowedCurrenciyNames}.");
     }
 
     private void Validate(decimal price)
     => Guard.AgainstZeroDecimal<InvalidPriceException>(
         price,
         nameof(Price));
-
-    private void Validate(string currency)
-    => Guard.ForStringLength<InvalidPriceException>(
-        currency,
-        CurrencyLength,
-        CurrencyLength,
-        nameof(Currency));
 }

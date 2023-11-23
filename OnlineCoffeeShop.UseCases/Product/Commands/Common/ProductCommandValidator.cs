@@ -14,10 +14,10 @@ public class ProductCommandValidator : AbstractValidator<CreateProductCommand>
             .NotEmpty();
 
 
-        this.RuleFor(z => z.Currency)
-            .MinimumLength(CurrencyLength)
-            .MaximumLength(CurrencyLength)
-            .NotEmpty();
+        //this.RuleFor(z => z.Currency)
+        //    .MinimumLength(CurrencyLength)
+        //    .MaximumLength(CurrencyLength)
+        //    .NotEmpty();
 
         this.RuleFor(c => c.ImageUrl)
                 .Must(url => Uri.IsWellFormedUriString(url, UriKind.Absolute))

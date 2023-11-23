@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using OnlineCoffeeShop.Domain.Aggregates.Product;
 
 namespace OnlineCoffeeShop.Application.Product.Commands.Create;
 public class CreateProductCommand : IRequest<int>
@@ -7,7 +8,7 @@ public class CreateProductCommand : IRequest<int>
     public string? Description { get; set; }
 
     public decimal Price { get; set; }
-    public string Currency { get; set; }
+    public int Currency { get; set; }
 
     public int Quantity { get; set; }
 
