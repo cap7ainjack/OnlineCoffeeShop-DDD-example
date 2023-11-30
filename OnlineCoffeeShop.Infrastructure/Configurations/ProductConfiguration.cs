@@ -10,14 +10,29 @@ internal class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder
             .HasKey(c => c.Id);
 
-        builder
-            .OwnsOne(c => c.Price, o =>
-            {
-                o.WithOwner();
+        //builder
+        //    .OwnsOne(c => c.Price, o =>
+        //    {
+        //        o.WithOwner();
 
-                o.Property(op => op.Price).HasColumnType("decimal(10,2)"); ;
-                o.Property(op => op.Currency).HasColumnType("nvarchar(3)"); ;
-            });
+        //        o.Property(op => op.Price).HasColumnType("decimal(10,2)"); ;
+        //      //  o.Property(op => op.Currency).HasColumnType("nvarchar(3)"); ;
+        //    });
+
+
+        builder.OwnsOne(z => z.Price, o =>
+        {
+            o.WithOwner();
+
+            o.Property(op => op.Price).HasColumnType("decimal(10,2)"); ;
+            o.Property(op => op.Currency).HasConversion(p => p.Value, p => CurrencyEnum.FromValue(p));
+        });
+
+        //builder
+        //    .Property(p => p.Price.Currency)
+        //    .HasConversion(
+        //        p => p.Value,
+        //        p => CurrencyEnum.FromValue(p));
 
 
         builder

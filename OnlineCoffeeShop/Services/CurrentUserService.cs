@@ -17,6 +17,10 @@ public class CurrentUserService : ICurrentUser
         else
         {
             this.UserId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (this.UserId == null)
+            {
+                this.UserId = "M2M user";
+            }
         }
     }
 
