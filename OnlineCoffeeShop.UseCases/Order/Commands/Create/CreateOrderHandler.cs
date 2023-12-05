@@ -11,13 +11,13 @@ public class CreateOrderHandler : IRequestHandler<CreateOrderCommand, int>
     private readonly IOrderFactory orderFactory;
     private readonly IOrderRepository _repository;
     private readonly IProductRepository _productRepository;
-    private readonly IQueueService _queueService;
+    private readonly IQueueSenderService _queueService;
 
     public CreateOrderHandler(
         IOrderRepository repository,
         IOrderFactory orderFactory,
         IProductRepository productRepository,
-        IQueueService queueService)
+        IQueueSenderService queueService)
     {
         _repository = repository;
         this.orderFactory = orderFactory;
@@ -51,11 +51,13 @@ public class CreateOrderHandler : IRequestHandler<CreateOrderCommand, int>
             .Build();
 
         //  order.AddDomainEvent(new OrderSubmittedEvent(order.OrderLines));
-        await this._queueService.SendMessageAsync(new OrderSubmittedEvent(order.OrderLines), "ordersqueue");
 
         var added = await _repository.AddAsync(order);
 
         await _repository.SaveAsync(order);
+
+        var orderLines = order.OrderLines.Select(z => new OrderLineItemDto(z.ProductId, z.Quantity));
+        await this._queueService.SendMessageAsync(new OrderSubmittedEvent(orderLines), "ordersqueue");
 
         return added.Id;
     }

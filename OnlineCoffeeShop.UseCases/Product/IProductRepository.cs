@@ -1,5 +1,6 @@
 ﻿using OnlineCoffeeShop.Application.Product.Queries.Common;
 using OnlineCoffeeShop.Domain.Aggregates.Order;
+using OnlineCoffeeShop.Domain.Events;
 using OnlineCoffeeShop.Domain.Interfaces;
 
 namespace OnlineCoffeeShop.Application.Product;
@@ -16,5 +17,5 @@ public interface IProductRepository : IRepository<Domain.Aggregates.Product.Prod
     IEnumerable<int> ids,
     CancellationToken cancellationToken = default);
 
-    Task DecreaseProductQuantity(IEnumerable<OrderLine> lines);
+    Task DecreaseProductQuantity(IEnumerable<OrderLineItemDto> lines);
 }

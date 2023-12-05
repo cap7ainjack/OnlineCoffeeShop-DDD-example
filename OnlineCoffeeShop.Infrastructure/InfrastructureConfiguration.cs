@@ -81,7 +81,8 @@ IConfiguration configuration)
     this IServiceCollection services)
     {
         return services
-            .AddTransient<IQueueService, QueueService.QueueService>();
+            .AddTransient<IQueueSenderService, QueueService.EventBusQueueService>()
+            .AddTransient<IQueueRecevierService, QueueService.EventBusQueueService>();
     }
 
     internal static IServiceCollection AddRepositories(this IServiceCollection services)

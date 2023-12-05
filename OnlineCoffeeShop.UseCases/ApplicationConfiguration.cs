@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OnlineCoffeeShop.Application.Behaviours;
+using OnlineCoffeeShop.Application.EventBus;
 using OnlineCoffeeShop.Application.Order.Commands.Common;
 using OnlineCoffeeShop.Application.Order.Commands.Create;
 using OnlineCoffeeShop.Application.Order.EventsHandlers;
@@ -26,5 +27,7 @@ public static class ApplicationConfiguration
          .AddScoped<IValidator<CreateProductCommand>, ProductCommandValidator>()
          .AddScoped<IValidator<CreateOrderCommand>, OrderCommandValidator>()
          .AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>))
-         .AddTransient<INotificationHandler<OrderSubmittedEvent>, SetProductQuantityOnOrderComplete>();
+         .AddTransient<INotificationHandler<OrderSubmittedEvent>, SetProductQuantityOnOrderCompleteEventHandler>()
+         .AddHostedService<ConsumeScopedServiceHostedService>()
+         .AddScoped<IEventBusScopedService, EventBusScopedService>();
 }

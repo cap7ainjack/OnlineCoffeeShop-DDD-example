@@ -4,10 +4,10 @@ using OnlineCoffeeShop.Application.Common;
 using System.Text.Json;
 
 namespace OnlineCoffeeShop.Infrastructure.QueueService;
-internal class QueueService: IQueueService
+internal class EventBusQueueService: IQueueSenderService, IQueueRecevierService
 {
     public IConfiguration _config;
-    public QueueService(IConfiguration config)
+    public EventBusQueueService(IConfiguration config)
     {
         this._config = config;
     }
@@ -23,5 +23,22 @@ internal class QueueService: IQueueService
         ServiceBusMessage message = new ServiceBusMessage(messageBody);
 
         await sender.SendMessageAsync(message);
+    }
+
+    public async Task<string> RecieveMessageAsync(string queueName)
+    {
+        string connectionString = this._config.GetConnectionString("AzureServiceBus");
+        await using var client = new ServiceBusClient(connectionString);
+
+        ServiceBusReceiver receiver = client.CreateReceiver(queueName);
+
+        ServiceBusReceivedMessage receivedMessage = await receiver.ReceiveMessageAsync();
+
+        string body = receivedMessage.Body.ToString();
+
+        // complete the message, thereby deleting it from the service
+       // await receiver.CompleteMessageAsync(receivedMessage);
+
+        return body;
     }
 }

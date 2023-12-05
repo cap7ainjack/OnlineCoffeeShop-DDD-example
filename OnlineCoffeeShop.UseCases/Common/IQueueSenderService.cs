@@ -1,5 +1,5 @@
 ﻿namespace OnlineCoffeeShop.Application.Common;
-public interface IQueueService
+public interface IQueueSenderService
 {
     Task SendMessageAsync<T>(T messageToSend, string queueName);
 }
