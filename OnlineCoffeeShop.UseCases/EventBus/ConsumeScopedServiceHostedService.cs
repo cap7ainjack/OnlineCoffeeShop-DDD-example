@@ -16,7 +16,6 @@ public class ConsumeScopedServiceHostedService : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-
         await DoWork(stoppingToken);
     }
 

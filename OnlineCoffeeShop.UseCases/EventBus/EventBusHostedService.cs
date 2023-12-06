@@ -38,9 +38,6 @@ internal class EventBusScopedService : IEventBusScopedService
                 if (parsedEvent != null)
                 {
                     await this._mediator.Publish(parsedEvent);
-
-                    // complete the message, thereby deleting it from the service
-                    await receiver.CompleteMessageAsync(receivedMessage);
                 }
             }
         }

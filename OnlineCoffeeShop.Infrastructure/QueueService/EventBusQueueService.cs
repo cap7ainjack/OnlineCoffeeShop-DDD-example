@@ -6,7 +6,9 @@ using System.Text.Json;
 namespace OnlineCoffeeShop.Infrastructure.QueueService;
 internal class EventBusQueueService: IQueueSenderService, IQueueRecevierService
 {
-    public IConfiguration _config;
+    private IConfiguration _config;
+
+    private const string CONNECTION_STRING_SECTION = "AzureServiceBus";
     public EventBusQueueService(IConfiguration config)
     {
         this._config = config;
@@ -14,7 +16,7 @@ internal class EventBusQueueService: IQueueSenderService, IQueueRecevierService
 
     public async Task SendMessageAsync<T>(T messageToSend, string queueName)
     {
-        string connectionString = this._config.GetConnectionString("AzureServiceBus");
+        string connectionString = this._config.GetConnectionString(CONNECTION_STRING_SECTION);
         await using var client = new ServiceBusClient(connectionString);
 
         ServiceBusSender sender = client.CreateSender(queueName);
@@ -27,7 +29,7 @@ internal class EventBusQueueService: IQueueSenderService, IQueueRecevierService
 
     public async Task<string> RecieveMessageAsync(string queueName)
     {
-        string connectionString = this._config.GetConnectionString("AzureServiceBus");
+        string connectionString = this._config.GetConnectionString(CONNECTION_STRING_SECTION);
         await using var client = new ServiceBusClient(connectionString);
 
         ServiceBusReceiver receiver = client.CreateReceiver(queueName);
