@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using OnlineCoffeeShop.Application.Common;
 using OnlineCoffeeShop.Application.Exceptions;
 using OnlineCoffeeShop.Application.Product;
 using OnlineCoffeeShop.Domain.Events;
@@ -10,13 +11,18 @@ public class CreateOrderHandler : IRequestHandler<CreateOrderCommand, int>
     private readonly IOrderFactory orderFactory;
     private readonly IOrderRepository _repository;
     private readonly IProductRepository _productRepository;
+    private readonly IQueueSenderService _queueService;
+
     public CreateOrderHandler(
         IOrderRepository repository,
-        IOrderFactory orderFactory, IProductRepository productRepository)
+        IOrderFactory orderFactory,
+        IProductRepository productRepository,
+        IQueueSenderService queueService)
     {
         _repository = repository;
         this.orderFactory = orderFactory;
         this._productRepository = productRepository;
+        this._queueService = queueService;
     }
 
     public async Task<int> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
@@ -44,11 +50,14 @@ public class CreateOrderHandler : IRequestHandler<CreateOrderCommand, int>
         var order = orderFactory
             .Build();
 
-        order.AddDomainEvent(new OrderSubmittedEvent(order.OrderLines));
+        //  order.AddDomainEvent(new OrderSubmittedEvent(order.OrderLines));
 
         var added = await _repository.AddAsync(order);
 
         await _repository.SaveAsync(order);
+
+        var orderLines = order.OrderLines.Select(z => new OrderLineItemDto(z.ProductId, z.Quantity));
+        await this._queueService.SendMessageAsync(new OrderSubmittedEvent(orderLines), "ordersqueue");
 
         return added.Id;
     }

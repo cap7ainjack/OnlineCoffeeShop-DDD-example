@@ -1,4 +1,5 @@
 ﻿using OnlineCoffeeShop.Domain.Common;
+using System.Text.Json.Serialization;
 
 namespace OnlineCoffeeShop.Domain.Aggregates.Order;
 public class OrderLine: Entity<int>
@@ -11,6 +12,8 @@ public class OrderLine: Entity<int>
         ProductId = productId;
         Quantity = quantity;
     }
+
+    public OrderLine() { }
 
     public Order Order { get; set; } = null!;
 }

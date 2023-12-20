@@ -3,6 +3,7 @@ using OnlineCoffeeShop.Application.Product;
 using OnlineCoffeeShop.Application.Product.Queries.Common;
 using OnlineCoffeeShop.Domain.Aggregates.Order;
 using OnlineCoffeeShop.Domain.Aggregates.Product;
+using OnlineCoffeeShop.Domain.Events;
 
 namespace OnlineCoffeeShop.Infrastructure.Repositories;
 internal class ProductRepository : Repository<Product>, IProductRepository
@@ -47,7 +48,7 @@ internal class ProductRepository : Repository<Product>, IProductRepository
         .All()
         .Where(z => ids.Contains(z.Id))
         .ToListAsync();
-    public async Task DecreaseProductQuantity(IEnumerable<OrderLine> lines)
+    public async Task DecreaseProductQuantity(IEnumerable<OrderLineItemDto> lines)
     {
         foreach (var item in lines)
         {
