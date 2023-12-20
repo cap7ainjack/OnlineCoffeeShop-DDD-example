@@ -4,7 +4,7 @@ This repository contains the demo source code about Domain-Driven Design with AS
 
 
 # Cloud:
-  Is currently using Azure Service Bus when new order is submitted.Send message to queue 'ordersqueue'. 
+  Currently using Azure Service Bus when new order is submitted.Send message to queue 'ordersqueue'. 
   
   Azure function is subscribed to this query which reads the message, log it and send it to other query 'productquantityupdatequeue'. 
   
