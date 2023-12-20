@@ -30,7 +30,7 @@ internal class EventBusScopedService : IEventBusScopedService
         while (!stoppingToken.IsCancellationRequested)
         {
             executionCount++;
-            string rawBody = await _queueRecevierService.RecieveMessageAsync("ordersqueue");
+            string rawBody = await _queueRecevierService.RecieveMessageAsync("productquantityupdatequeue");
 
             if (!string.IsNullOrEmpty(rawBody))
             {

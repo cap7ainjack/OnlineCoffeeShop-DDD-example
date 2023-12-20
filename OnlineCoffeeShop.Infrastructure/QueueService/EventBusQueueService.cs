@@ -36,11 +36,16 @@ internal class EventBusQueueService: IQueueSenderService, IQueueRecevierService
 
         ServiceBusReceivedMessage receivedMessage = await receiver.ReceiveMessageAsync();
 
-        string body = receivedMessage.Body.ToString();
+        if (receivedMessage != null && receivedMessage.Body != null)
+        {
+            string body = receivedMessage.Body.ToString();
 
-        // complete the message, thereby deleting it from the service
-       // await receiver.CompleteMessageAsync(receivedMessage);
+            //complete the message, thereby deleting it from the service
+            await receiver.CompleteMessageAsync(receivedMessage);
 
-        return body;
+            return body;
+        }
+
+        return string.Empty;
     }
 }
