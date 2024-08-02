@@ -14,19 +14,22 @@ using OnlineCoffeeShop.Infrastructure.Repositories;
 namespace OnlineCoffeeShop.Infrastructure;
 public static class InfrastructureConfiguration
 {
+    private static string DB_CONNECION_STRING_CONFIG = "AzureDbConnectionString";
+
     public static IServiceCollection AddIdentityInfrastructure(
 this IServiceCollection services,
 IConfiguration configuration)
     {
+
         services.AddDbContext<IdentityApplicationDbContext>(options =>
         {
             options.UseSqlServer
-                (configuration.GetConnectionString("Default"), sqlOptions => 
+                (configuration[DB_CONNECION_STRING_CONFIG], sqlOptions =>
                     sqlOptions.MigrationsAssembly(typeof(IdentityApplicationDbContext).Assembly.FullName));
         });
 
-       services.AddIdentity<IdentityUser, IdentityRole>()
-            .AddEntityFrameworkStores<IdentityApplicationDbContext>();
+        services.AddIdentity<IdentityUser, IdentityRole>()
+             .AddEntityFrameworkStores<IdentityApplicationDbContext>();
 
         services.AddIdentityServer(opt =>
         {
@@ -40,14 +43,14 @@ IConfiguration configuration)
         .AddConfigurationStore(options =>
         {
             options.ConfigureDbContext = b =>
-                b.UseSqlServer(configuration.GetConnectionString("Default"),
+                b.UseSqlServer(configuration[DB_CONNECION_STRING_CONFIG],
                     sql => sql
                     .MigrationsAssembly(typeof(OnlineCoffeeShopContext).Assembly.FullName));
         })
         .AddOperationalStore(options =>
         {
             options.ConfigureDbContext = b =>
-                b.UseSqlServer(configuration.GetConnectionString("Default"),
+                b.UseSqlServer(configuration[DB_CONNECION_STRING_CONFIG],
                     sql => sql
                     .MigrationsAssembly(typeof(OnlineCoffeeShopContext).Assembly.FullName));
         })
@@ -72,7 +75,7 @@ IConfiguration configuration)
         => services
             .AddDbContext<OnlineCoffeeShopContext>(options => options
                 .UseSqlServer(
-                    configuration.GetConnectionString("Default"),
+                    configuration[DB_CONNECION_STRING_CONFIG],
                     sqlServer => sqlServer
                         .MigrationsAssembly(typeof(OnlineCoffeeShopContext)
                             .Assembly.FullName)));

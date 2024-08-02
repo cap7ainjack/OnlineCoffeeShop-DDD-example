@@ -1,3 +1,4 @@
+using Azure.Identity;
 using Microsoft.EntityFrameworkCore;
 using OnlineCoffeeShop.Application;
 using OnlineCoffeeShop.Application.Identity.Interfaces;
@@ -19,7 +20,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<ICurrentUser, CurrentUserService>();
+
 builder.Services.AddWebServices();
+
+
+// Retrieve the Key Vault endpoint from the built configuration
+var keyVaultEndpoint = new Uri(builder.Configuration["AzureKeyVault:Vault"]);
+builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
 
 builder.Services
     .AddApplication(builder.Configuration)
