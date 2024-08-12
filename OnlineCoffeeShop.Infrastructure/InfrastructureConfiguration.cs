@@ -15,6 +15,7 @@ namespace OnlineCoffeeShop.Infrastructure;
 public static class InfrastructureConfiguration
 {
     private static string DB_CONNECION_STRING_CONFIG = "AzureDbConnectionString";
+    private static string IDENTITY_DB_CONNECION_STRING_CONFIG = "AzureIdentityDB";
 
     public static IServiceCollection AddIdentityInfrastructure(
 this IServiceCollection services,
@@ -24,7 +25,7 @@ IConfiguration configuration)
         services.AddDbContext<IdentityApplicationDbContext>(options =>
         {
             options.UseSqlServer
-                (configuration[DB_CONNECION_STRING_CONFIG], sqlOptions =>
+                (configuration[IDENTITY_DB_CONNECION_STRING_CONFIG], sqlOptions =>
                     sqlOptions.MigrationsAssembly(typeof(IdentityApplicationDbContext).Assembly.FullName));
         });
 
@@ -43,14 +44,14 @@ IConfiguration configuration)
         .AddConfigurationStore(options =>
         {
             options.ConfigureDbContext = b =>
-                b.UseSqlServer(configuration[DB_CONNECION_STRING_CONFIG],
+                b.UseSqlServer(configuration[IDENTITY_DB_CONNECION_STRING_CONFIG],
                     sql => sql
                     .MigrationsAssembly(typeof(OnlineCoffeeShopContext).Assembly.FullName));
         })
         .AddOperationalStore(options =>
         {
             options.ConfigureDbContext = b =>
-                b.UseSqlServer(configuration[DB_CONNECION_STRING_CONFIG],
+                b.UseSqlServer(configuration[IDENTITY_DB_CONNECION_STRING_CONFIG],
                     sql => sql
                     .MigrationsAssembly(typeof(OnlineCoffeeShopContext).Assembly.FullName));
         })
